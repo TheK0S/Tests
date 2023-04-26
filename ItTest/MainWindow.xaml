@@ -1,0 +1,31 @@
+﻿<Window x:Class="ItTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ItTest"
+        mc:Ignorable="d"
+        FontSize="15"
+        Title="MainWindow" Height="900" Width="1600">
+    <Grid>
+        <DockPanel Margin="50">
+            <StackPanel DockPanel.Dock="Top">
+                <TextBlock x:Name="questionField"/>
+
+                <StackPanel x:Name="answers" Orientation="Vertical" Margin="20 20 0 0">
+                    
+                </StackPanel>
+            </StackPanel>
+            
+
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical" VerticalAlignment="Bottom">
+                <DockPanel>
+                    <Button x:Name="prev" Width="150" Margin="0 0 30 0" Padding="7" Click="prev_Click" IsDefault="True">Предидущий</Button>
+                    <Button x:Name="next" Width="150" Padding="7" Click="next_Click" IsCancel="True">Следующий</Button>
+                    <Button x:Name="ok" DockPanel.Dock="Right" HorizontalAlignment="Right" Padding="7" Click="ok_Click">Подтвердить ответ</Button>                    
+                </DockPanel>
+                <UniformGrid x:Name="lamps" Height="50" Rows="1" Columns="20"/>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Window>
