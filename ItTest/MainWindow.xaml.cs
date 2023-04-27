@@ -73,7 +73,7 @@ namespace ItTest
 
         static void PrintQuestionBlock(int index,MainWindow window)
         {
-            window.questionField.Text = window.questionBlocks[index].Question;
+            window.questionField.Text = $"{index + 1}. {window.questionBlocks[index].Question}";
 
             window.answers.Children.Clear();
 
@@ -258,13 +258,32 @@ namespace ItTest
 
         private void ok_Click(object sender, RoutedEventArgs e)
         {
-            if (indicators[currentQuestion].Fill == new SolidColorBrush(Color.FromRgb(128, 128, 128)))
+            if (questionBlocks[currentQuestion].IsAnswered)
             {
-
+                MessageBox.Show("Вы уже ответили на этот вопрос");
             }
             else
             {
-                MessageBox.Show("Вы уже ответили на этот вопрос");
+                questionBlocks[currentQuestion].IsAnswered = true;
+
+                if (questionBlocks[currentQuestion].CorrectAnswers.Length > 1)
+                {
+                    //int[] correctAnswers = elements[currentQuestion][questionBlocks[currentQuestion].CorrectAnswers;
+                    
+                }
+                else
+                {
+                    RadioButton rbtn = (RadioButton)elements[currentQuestion][questionBlocks[currentQuestion].CorrectAnswers[0]];
+                    if (rbtn.IsChecked == true)
+                    {
+                        correctAnswerCount++;
+                        indicators[currentQuestion].Fill = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                    }
+                    else
+                    {
+                        indicators[currentQuestion].Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                    }
+                }
             }    
         }
     }

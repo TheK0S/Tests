@@ -12,12 +12,14 @@ namespace ItTest
         public string Question { get; set; }
         public string[] Answers { get; set; }
         public int[] CorrectAnswers { get; set; }
+        public bool IsAnswered { get; set; }
 
         public QuestionBlock(string question, string[] answers, int[] correctAnswers)
         {
             Question = question;
             Answers = answers;
             CorrectAnswers = correctAnswers;
+            IsAnswered = false;
         }
     }
 }
