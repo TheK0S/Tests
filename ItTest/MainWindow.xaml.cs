@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace ItTest
     {
         Ellipse[] indicators = new Ellipse[20];
         QuestionBlock[] questionBlocks = new QuestionBlock[20];
+        List<List<object>> elements = new List<List<object>>();
         int correctAnswerCount = 0;
         int currentQuestion = 0;
 
@@ -41,9 +43,32 @@ namespace ItTest
             indicators[0].Width = 30;
             indicators[0].Height = 30;
 
-            questionBlocks = AddQuestions();
+            questionBlocks = AddQuestions();            
+
+            foreach (var item in questionBlocks)
+            {
+                List<object> answerList = new List<object>();
+
+                if (item.CorrectAnswers.Length > 1)
+                    foreach (var answer in item.Answers)
+                        answerList.Add(new CheckBox { Content = answer, Margin = new Thickness(10) });
+                else
+                    foreach (var answer in item.Answers)
+                        answerList.Add(new RadioButton { Content = answer, Margin = new Thickness(10) });
+                
+                elements.Add(answerList);
+            }
 
             PrintQuestionBlock(currentQuestion, this);
+        }
+
+        static void SetLamps(int prevQuestion, int nextQuestion, MainWindow window)
+        {
+            window.indicators[prevQuestion].Height = 20;
+            window.indicators[prevQuestion].Width = 20;
+
+            window.indicators[nextQuestion].Height = 30;
+            window.indicators[nextQuestion].Width = 30;
         }
 
         static void PrintQuestionBlock(int index,MainWindow window)
@@ -52,20 +77,27 @@ namespace ItTest
 
             window.answers.Children.Clear();
 
-            if (window.questionBlocks[index].CorrectAnswers.Length > 1) 
-            {
-                foreach (var item in window.questionBlocks[index].Answers)
-                {
-                    window.answers.Children.Add(new CheckBox { Content = item, Margin = new Thickness(10) });
-                }
-            }
+            if(window.questionBlocks[index].CorrectAnswers.Length > 1)
+                foreach (var el in window.elements[index])
+                    window.answers.Children.Add((CheckBox)el);
             else
-            {
-                foreach (var item in window.questionBlocks[index].Answers)
-                {
-                    window.answers.Children.Add(new RadioButton { Content = item, Margin = new Thickness(10) });
-                }
-            }
+                foreach (var el in window.elements[index])
+                    window.answers.Children.Add((RadioButton)el);
+
+            //if (window.questionBlocks[index].CorrectAnswers.Length > 1) 
+            //{
+            //    foreach (var item in window.questionBlocks[index].Answers)
+            //    {
+            //        window.answers.Children.Add(new CheckBox { Content = item, Margin = new Thickness(10) });
+            //    }
+            //}
+            //else
+            //{
+            //    foreach (var item in window.questionBlocks[index].Answers)
+            //    {
+            //        window.answers.Children.Add(new RadioButton { Content = item, Margin = new Thickness(10) });
+            //    }
+            //}
         }
 
         static QuestionBlock[] AddQuestions()
@@ -198,22 +230,42 @@ namespace ItTest
         private void prev_Click(object sender, RoutedEventArgs e)
         {
             if (currentQuestion == 0)
-                PrintQuestionBlock(questionBlocks.Length - 1, this);
+            {
+                SetLamps(0, questionBlocks.Length - 1, this);
+                PrintQuestionBlock(questionBlocks.Length - 1, this);                
+            }                
             else
+            {
+                SetLamps(currentQuestion, currentQuestion - 1, this);
                 PrintQuestionBlock(--currentQuestion, this);
+            }
+                
         }
 
         private void next_Click(object sender, RoutedEventArgs e)
         {
             if (currentQuestion == questionBlocks.Length - 1)
+            {
+                SetLamps(currentQuestion, 0, this);
                 PrintQuestionBlock(0, this);
+            }                
             else
+            {
+                SetLamps(currentQuestion, currentQuestion + 1, this);
                 PrintQuestionBlock(++currentQuestion, this);
+            }
         }
 
         private void ok_Click(object sender, RoutedEventArgs e)
         {
+            if (indicators[currentQuestion].Fill == new SolidColorBrush(Color.FromRgb(128, 128, 128)))
+            {
 
+            }
+            else
+            {
+                MessageBox.Show("Вы уже ответили на этот вопрос");
+            }    
         }
     }
 }
