@@ -83,21 +83,6 @@ namespace ItTest
             else
                 foreach (var el in window.elements[index])
                     window.answers.Children.Add((RadioButton)el);
-
-            //if (window.questionBlocks[index].CorrectAnswers.Length > 1) 
-            //{
-            //    foreach (var item in window.questionBlocks[index].Answers)
-            //    {
-            //        window.answers.Children.Add(new CheckBox { Content = item, Margin = new Thickness(10) });
-            //    }
-            //}
-            //else
-            //{
-            //    foreach (var item in window.questionBlocks[index].Answers)
-            //    {
-            //        window.answers.Children.Add(new RadioButton { Content = item, Margin = new Thickness(10) });
-            //    }
-            //}
         }
 
         static QuestionBlock[] AddQuestions()
@@ -308,6 +293,23 @@ namespace ItTest
                     {
                         indicators[currentQuestion].Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
                     }
+                }
+
+                bool isAllQuestionsAnswered = true;
+
+                foreach (var item in questionBlocks)
+                {
+                    if (!item.IsAnswered)
+                    {
+                        isAllQuestionsAnswered = false;
+                        break;
+                    }
+                }
+
+                if (isAllQuestionsAnswered)
+                {
+                    result.Text = $"Ваш результат {correctAnswerCount * 100 / questionBlocks.Length}% " +
+                        $"({correctAnswerCount} правильных ответов из {questionBlocks.Length})";
                 }
             }    
         }
