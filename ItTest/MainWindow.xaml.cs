@@ -113,25 +113,25 @@ namespace ItTest
             blocks[1] = new QuestionBlock(
                 "Выберите циклы",
                 new string[] { "foreach", "switch", "do while", "if" },
-                new int[] { 0, 3 }
+                new int[] { 0, 2 }
                 );
             
             blocks[2] = new QuestionBlock(
-                "Сколько бит в обном байте",
-                new string[] { "1024", "8", "32", "64" },
-                new int[] { 1 }
+                "Выберите циклы",
+                new string[] { "foreach", "switch", "do while", "if" },
+                new int[] { 0, 2 }
                 );
-            
+
             blocks[3] = new QuestionBlock(
-                "Сколько бит в обном байте",
-                new string[] { "1024", "8", "32", "64" },
-                new int[] { 1 }
+                "Выберите циклы",
+                new string[] { "foreach", "switch", "do while", "if" },
+                new int[] { 0, 2 }
                 );
 
             blocks[4] = new QuestionBlock(
-                "Сколько бит в обном байте",
-                new string[] { "1024", "8", "32", "64" },
-                new int[] { 1 }
+                "Выберите циклы",
+                new string[] { "foreach", "switch", "do while", "if" },
+                new int[] { 0, 2 }
                 );
 
             blocks[5] = new QuestionBlock(
@@ -268,8 +268,33 @@ namespace ItTest
 
                 if (questionBlocks[currentQuestion].CorrectAnswers.Length > 1)
                 {
-                    //int[] correctAnswers = elements[currentQuestion][questionBlocks[currentQuestion].CorrectAnswers;
-                    
+                    bool isCorrectAnswer = true;
+
+                    int[] corAns = questionBlocks[currentQuestion].CorrectAnswers;
+
+                    List<CheckBox> cbx = new List<CheckBox>();
+
+                    foreach (var element in elements[currentQuestion])
+                        cbx.Add((CheckBox)element);
+
+                    for (int i = 0; i < cbx.Count; i++)
+                    {
+                        if ((!corAns.Contains(i) && cbx[i].IsChecked == true) || (corAns.Contains(i) && cbx[i].IsChecked == false))
+                        {
+                            isCorrectAnswer = false;
+                            break;
+                        }
+                    }
+
+                    if (isCorrectAnswer)
+                    {
+                        correctAnswerCount++;
+                        indicators[currentQuestion].Fill = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                    }
+                    else
+                    {
+                        indicators[currentQuestion].Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                    }
                 }
                 else
                 {
