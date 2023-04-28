@@ -17,9 +17,6 @@ using System.Windows.Shapes;
 
 namespace ItTest
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         Ellipse[] indicators = new Ellipse[20];
