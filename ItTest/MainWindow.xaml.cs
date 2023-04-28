@@ -37,6 +37,7 @@ namespace ItTest
             for (int i = 0; i < indicators.Length; i++)
             {
                 indicators[i] = new Ellipse { Height = 20, Width = 20, Fill = new SolidColorBrush(Color.FromRgb(128, 128, 128)) };
+                indicators[i].MouseLeftButtonDown += Ellipse_MouseLeftButtonDown;
                 lamps.Children.Add(indicators[i]);
             }
 
@@ -60,6 +61,25 @@ namespace ItTest
             }
 
             PrintQuestionBlock(currentQuestion, this);
+        }
+
+        private void Ellipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            for (int i = 0; i < indicators.Length; i++)
+            {
+                if (indicators[i] == sender)
+                {
+                    SetLamps(currentQuestion, i, this);
+                    currentQuestion = i;
+                    PrintQuestionBlock(currentQuestion, this);                    
+                    break;
+                }
+            }
+        }
+
+        private void MainWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         static void SetLamps(int prevQuestion, int nextQuestion, MainWindow window)
